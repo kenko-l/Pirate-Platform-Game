@@ -1,7 +1,10 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,17 +15,21 @@ import javax.swing.JPanel;
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
 
+import static utils.Constants.PlayerConstants.*;
+import static utils.Constants.Directions.*;
+import static main.Game.GAME_HEIGHT;
+import static main.Game.GAME_WIDTH;
+
+
+
 public class GamePanel extends JPanel {
 
 	private MouseInputs mouseInputs;
-	private float xDelta = 100, yDelta = 100;
-	private BufferedImage img, subImg;
+	private Game game;
 
-	public GamePanel() {
-
+	public GamePanel(Game game) {
 		mouseInputs = new MouseInputs(this);
-
-		importImg();
+		this.game = game;
 
 		setPanelSize();
 		addKeyListener(new KeyboardInputs(this));
@@ -31,46 +38,30 @@ public class GamePanel extends JPanel {
 
 	}
 
-	private void importImg() {
-		InputStream is = getClass().getResourceAsStream("/player_sprites.png");
-
-		try {
-			img = ImageIO.read(is);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-
 	private void setPanelSize() {
-		Dimension size = new Dimension(1280, 800);
-		setMinimumSize(size);
+		Dimension size = new Dimension(GAME_WIDTH, GAME_HEIGHT);
 		setPreferredSize(size);
-		setMaximumSize(size);
-
+		System.out.println("Size: " + GAME_WIDTH + " : " + GAME_HEIGHT);
 	}
 
-	public void changeXDelta(int value) {
-		this.xDelta += value;
+	public void updateGame() {
 
-	}
-
-	public void changeYDelta(int value) {
-		this.yDelta += value;
-
-	}
-
-	public void setRectPos(int x, int y) {
-		this.xDelta = x;
-		this.yDelta = y;
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		subImg = img.getSubimage(1 * 64, 8 * 40, 64, 40);
-		g.drawImage(subImg, (int) xDelta, (int) yDelta, 128, 80, null);
+		g.setColor(Color.white);
+		for (int i = 0; i < 64; i++)
+			for (int j = 0; j < 40; j++)
+				g.fillRect(i * 20, j * 20, 20, 20);
 
+		game.render(g);
+
+	}
+
+	public Game getGame() {
+		return game;
 	}
 
 }

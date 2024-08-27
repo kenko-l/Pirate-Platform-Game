@@ -3,7 +3,7 @@ package inputs;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import main.Game;
+import gameStates.Gamestate;
 import main.GamePanel;
 
 public class KeyboardInputs implements KeyListener {
@@ -14,33 +14,38 @@ public class KeyboardInputs implements KeyListener {
 		this.gamePanel = gamePanel;
 	}
 
+	
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
+	
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void keyPressed(KeyEvent e) {
-
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_W:
-			gamePanel.changeYDelta(-5);
+		switch(Gamestate.state) {
+		case MENU:
+			gamePanel.getGame().getMenu().keyReleased(e);
 			break;
-		case KeyEvent.VK_A:
-			gamePanel.changeXDelta(-5);
+		case PLAYING:
+			gamePanel.getGame().getPlaying().keyReleased(e);
 			break;
-		case KeyEvent.VK_S:
-			gamePanel.changeYDelta(5);
+		default:
 			break;
-		case KeyEvent.VK_D:
-			gamePanel.changeXDelta(5);
-			break;
+		
 		}
-
 	}
 
+	
+	public void keyPressed(KeyEvent e) {
+		switch(Gamestate.state) {
+		case MENU:
+			gamePanel.getGame().getMenu().keyPressed(e);
+			break;
+		case PLAYING:
+			gamePanel.getGame().getPlaying().keyPressed(e);
+			break;
+		default:
+			break;
+		
+		}
+	}
 }
