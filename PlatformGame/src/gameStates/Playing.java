@@ -8,11 +8,14 @@ import java.awt.event.MouseEvent;
 import entities.Player;
 import levels.LevelManager;
 import main.Game;
+import utils.PauseOverlay;
 
 public class Playing extends State implements Statemethods {
 	private Player player;
 	private LevelManager levelManager;
-
+	private PauseOverlay pauseOverlay;
+	private boolean paused = true;
+	
 	public Playing(Game game) {
 		super(game);
 		initClasses();
@@ -22,21 +25,22 @@ public class Playing extends State implements Statemethods {
 		levelManager = new LevelManager(game);
 		player = new Player(200, 200, (int) (64 * Game.SCALE), (int) (40 * Game.SCALE));
 		player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
-
+		pauseOverlay = new PauseOverlay();
 	}
 
 	
 	public void update() {
 		levelManager.update();
 		player.update();
-
+		
+		pauseOverlay.update();
 	}
 
 	
 	public void draw(Graphics g) {
 		levelManager.draw(g);
 		player.render(g);
-
+		pauseOverlay.draw(g);
 	}
 
 	
@@ -81,19 +85,22 @@ public class Playing extends State implements Statemethods {
 
 	
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+		if(paused)
+			pauseOverlay.mousePressed(e);
 
 	}
 
 	
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+		if(paused)
+			pauseOverlay.mouseReleased(e);
 
 	}
 
 	
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
+		if(paused)
+			pauseOverlay.mouseMoved(e);
 
 	}
 
