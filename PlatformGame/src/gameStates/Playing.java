@@ -61,6 +61,7 @@ public class Playing extends State implements Statemethods {
 		if (xLvlOffset > maxLvlOffsetX)
 			xLvlOffset = maxLvlOffsetX;
 		else if (xLvlOffset < 0);
+			xLvlOffset = 0;
 	}
 
 	public void draw(Graphics g) {
