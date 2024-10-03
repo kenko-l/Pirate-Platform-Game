@@ -1,4 +1,3 @@
-
 package entities;
 
 import static utils.Constants.PlayerConstants.*;
@@ -91,19 +90,18 @@ public class Player extends Entity {
 
 		if (jump)
 			jump();
-		//if (!left && !right && !inAir)
-		//	return;
-		
+
 		if (!inAir)
-			if((!left && !right) || (right && left))
+			if ((!left && !right) || (right && left))
 				return;
+
 		float xSpeed = 0;
 
 		if (left)
 			xSpeed -= playerSpeed;
 		if (right)
 			xSpeed += playerSpeed;
-		
+
 		if (!inAir)
 			if (!IsEntityOnFloor(hitbox, lvlData))
 				inAir = true;
